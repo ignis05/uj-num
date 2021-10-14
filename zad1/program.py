@@ -1,9 +1,9 @@
 import numpy as np
 
 # np.float32 or np.float64
-precision = np.float64
+precision = np.float32
 # 7 or 16
-hRange = 16
+hRange = 7
 
 
 def f(x):
@@ -32,7 +32,7 @@ def epsilon(x, h, func):
 deriv = fPrim(pointX)
 print("derivative: ", str(deriv), )
 
-for i in range(1, hRange):
+for i in range(1, hRange+1):
     hVal = precision(1) / np.power(precision(10), precision(i))
     aproxA = przybA(pointX, hVal)
     epsiA = epsilon(pointX, hVal, przybA)
