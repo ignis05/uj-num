@@ -1,9 +1,10 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 # np.float32 or np.float64
-precision = np.float32
+precision = np.float64
 # 7 or 16
-hRange = 7
+hRange = 16
 
 
 def f(x):
@@ -32,11 +33,18 @@ def epsilon(x, h, func):
 deriv = fPrim(pointX)
 print("derivative: ", str(deriv), )
 
+xAxis = []
+yAxis = []
+
 for i in range(1, hRange+1):
     hVal = precision(1) / np.power(precision(10), precision(i))
     aproxA = przybA(pointX, hVal)
     epsiA = epsilon(pointX, hVal, przybA)
     aproxB = przybB(pointX, hVal)
     epsiB = epsilon(pointX, hVal, przybB)
-    # print("|    aproxA: ", str(aproxA), "|     epsiA: ", str(epsiA))
-    print("h=",str(hVal),"|     aproxA: ", str(aproxA), "|     epsiA: ", str(epsiA), "|    aproxB: ", str(aproxB), "|     epsiB: ", str(epsiB))
+    print("h=", str(hVal), "|     aproxA: ", str(aproxA), "|     epsiA: ", str(epsiA), "|    aproxB: ", str(aproxB), "|     epsiB: ", str(epsiB))
+    xAxis.append(np.log10(hVal))
+    yAxis.append(np.log10(epsiA))
+
+plt.plot(xAxis, yAxis)
+plt.show()
