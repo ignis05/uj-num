@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 precision = np.float64
 # 7 or 16
 hRange = 16
+# 'a' or 'b'
+equation = 'a'
 
 
 def f(x):
@@ -36,15 +38,22 @@ print("derivative: ", str(deriv), )
 xAxis = []
 yAxis = []
 
-for i in range(1, hRange+1):
-    hVal = precision(1) / np.power(precision(10), precision(i))
+limit = precision(1) / np.power(precision(10), precision(hRange))
+hVal = precision(1) / precision(10)
+
+while hVal > limit:
     aproxA = przybA(pointX, hVal)
     epsiA = epsilon(pointX, hVal, przybA)
     aproxB = przybB(pointX, hVal)
     epsiB = epsilon(pointX, hVal, przybB)
     print("h=", str(hVal), "|     aproxA: ", str(aproxA), "|     epsiA: ", str(epsiA), "|    aproxB: ", str(aproxB), "|     epsiB: ", str(epsiB))
     xAxis.append(np.log10(hVal))
-    yAxis.append(np.log10(epsiA))
+    if equation == 'a':
+        yAxis.append(np.log10(epsiA))
+    else:
+        yAxis.append(np.log10(epsiB))
+
+    hVal = hVal / precision(2)
 
 plt.plot(xAxis, yAxis)
 plt.show()
