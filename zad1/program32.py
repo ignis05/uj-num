@@ -45,10 +45,10 @@ while hVal > limit:
     resA.append(np.log10(epsiA))
     resB.append(np.log10(epsiB))
 
-    hVal = hVal / np.float32(2)
+    hVal = hVal / np.float32(1.5)
 
-plt.plot(xAxis, resA, label='epsilon A')
-plt.plot(xAxis, resB, label='epsilon B')
+plt.plot(xAxis, resA, label='epsilon A', color='C0')
+plt.plot(xAxis, resB, label='epsilon B', color='C1')
 plt.xlabel('h')
 plt.ylabel('Approximation error')
 plt.title('Aproximation error based on h value (32 bit)')
