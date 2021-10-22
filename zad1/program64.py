@@ -28,6 +28,9 @@ def epsilon(x, h, func):
 deriv = fPrim(pointX)
 print("derivative: ", str(deriv), )
 
+minA = {'val': 1, 'h': 1}
+minB = {'val': 1, 'h': 1}
+
 xAxis = []
 resA = []
 resB = []
@@ -45,7 +48,17 @@ while hVal > limit:
     resA.append(np.log10(epsiA))
     resB.append(np.log10(epsiB))
 
+    if epsiA < minA['val']:
+        minA['val'] = epsiA
+        minA['h'] = hVal
+    if epsiB < minB['val']:
+        minB['val'] = epsiB
+        minB['h'] = hVal
+
     hVal = hVal / np.float64(1.5)
+
+print('Smallest error for A:\nh*={0}\terr={1}'.format(minA['h'], minA['val']))
+print('Smallest error for B:\nh*={0}\terr={1}'.format(minB['h'], minB['val']))
 
 plt.plot(xAxis, resA, label='epsilon A', color='C0')
 plt.plot(xAxis, resB, label='epsilon B', color='C1')
