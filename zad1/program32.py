@@ -55,7 +55,7 @@ while hVal > limit:
         minB['val'] = epsiB
         minB['h'] = hVal
 
-    hVal = hVal / np.float32(1.5)
+    hVal = hVal / np.float32(1.1)
 
 print('Smallest error for A:\nh*={0}\terr={1}'.format(minA['h'], minA['val']))
 print('Smallest error for B:\nh*={0}\terr={1}'.format(minB['h'], minB['val']))
