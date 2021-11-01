@@ -14,16 +14,16 @@ matrixA2 = np.array([
     [0.24938964, 0.31048984, 0.18519926, 2.27845311, -0.54893124],
     [0.82783473, -0.53591589, 0.13060923, -0.54893124, 2.6276678],
 ])
-vectorB = np.array([5.40780228, 3.67008677, 3.12306266,  -1.11187948, 0.54437218]).T
-vectorBprim = vectorB + np.array([1e-05, 0, 0, 0, 0]).T
 
-vectorY1 = np.linalg.solve(matrixA1, vectorB)
-vectorYprim1 = np.linalg.solve(matrixA1, vectorBprim)
-delta1 = np.linalg.norm(vectorY1-vectorYprim1, ord=2)
-print('\ndla i=1:', '\ny1= ', vectorY1, "\ny'1= ", vectorYprim1, '\ndelta1= ', delta1)
-
-vectorY2 = np.linalg.solve(matrixA2, vectorB)
-vectorYprim2 = np.linalg.solve(matrixA2, vectorBprim)
-delta2 = np.linalg.norm(vectorY2-vectorYprim2, ord=2)
-print('\ndla i=2:', '\ny2= ', vectorY2, "\ny'2= ", vectorYprim2, '\ndelta2= ', delta2)
-
+eigA = list(np.linalg.eig(matrixA1)[0])
+eigB = list(np.linalg.eig(matrixA2)[0])
+absEigA = [abs(el) for el in eigA]
+absEigB = [abs(el) for el in eigB]
+print('Wartości własne macierzy A:', eigA)
+print('minLambda =', min(absEigA))
+print('maxLambda =', max(absEigA))
+print('kappa =', max(absEigA)/min(absEigA))
+print('\nWartości własne macierzy B:', eigB)
+print('minLambda =', min(absEigB))
+print('maxLambda =', max(absEigB))
+print('kappa =', max(absEigB)/min(absEigB))
