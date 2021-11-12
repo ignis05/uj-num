@@ -27,13 +27,18 @@ vectorX = np.array(listX).T
 
 vectorY = np.linalg.solve(matrixA, vectorX)
 
+
 p, l, u = lu(matrixA)
 
-print("p:\n")
-print(p)
-print("l:\n")
-print(l)
-print("u:\n")
-print(u)
+vectorT = np.linalg.solve(l, vectorX)
 
+print("\np:")
+print(p)
+print("\nl:")
+print(l)
+print("\nu:")
+print(u)
+print("\nvector after L (t):")
+print(vectorT)
+print("\nresult vector:")
 print(vectorY)

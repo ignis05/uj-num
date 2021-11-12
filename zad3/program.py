@@ -61,7 +61,7 @@ for i in range(N):
         pass
 
 
-print("====new====\n")
+print("\n====new====")
 print(np.matrix(matrixA))
 
 
@@ -103,29 +103,28 @@ for i in range(N):
 l = np.array(lList)
 u = np.array(uList)
 
-print("l:\n")
+print("\nl:")
 print(l)
-print("u:\n")
+print("\nu:")
 print(u)
 
-# Lt = x
+# Lt = x | forwards substitution
 vectorT = []
 for i in range(0, N):
     prev = 0
     for j in range(0, len(vectorT)):
         prev += getL(i, j) * vectorT[j]
-    vectorT.append((i+1 - prev))
+    vectorT.append((i+1 - prev)/getL(i, i))
 
 print(vectorT)
 
-# Uy = t
-vectorY = []
-for i in range(0, N):
+# Uy = t | backwards substitution
+vectorY = [None] * N
+for i in reversed(range(0, N)):
     prev = 0
-    for j in range(0, len(vectorY)):
-        prev += getL(N-1-i, len(vectorY)-1-j) * vectorY[len(vectorY)-1-j]
-    vectorY.append((vectorT[N-1-i] - prev))
+    for j in reversed(range(i+1, N)):
+        prev += getU(i, j) * vectorY[j]
+    vectorY[i] = (vectorT[i] - prev)/getU(i, i)
 
-print("result: ===\n")
-vectorY.reverse()
+print("\n=== result: ===")
 print(vectorY)
