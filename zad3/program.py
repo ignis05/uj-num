@@ -1,65 +1,95 @@
 import numpy as np
 
-N = 100
+N = 6
 
 matrixA = []
+# iterate from 1 so the i in equation is correct
 for i in range(1, N+1):
-    element = []
-    matrixA.append(element)
-    for j in range(1, N+1):
-        val = 0
-        if i == j:
-            val = 1.2
-        elif i == j+1:
-            val = 0.2
-        elif i+1 == j:
-            val = 0.1 / i
-        elif i+2 == j:
-            val = 0.4 / (i**2)
-        element.append(val)
+    row = [[], [], [], []]
+    matrixA.append(row)
 
-vectorX = [i for i in range(1, N+1)]
+    # 1 - diag:
+    row[1] = 1.2
+    if i > 1:
+        # 0 - below diag 1:
+        row[0] = 0.2
+        # 2 - above diag 1
 
-# print(matrixA)
-# print(vectorX)
+        row[2] = 0.1 / (i-1)
+    else:
+        row[0] = 0
+        row[2] = 0
+    if i > 2:
+        # 3 - above diag 2
+        row[3] = 0.4 / pow(i-2, 2)
+    else:
+        row[3] = 0
+
+
+print(np.matrix(matrixA))
 
 # LU decomposition
 for i in range(N):
-    # prevent index oob, if i==0:
-    # matrixA[i][i] = matrixA[i][i]
-    # matrixA[i][i+1] = matrixA[i][i+1]
-    # so just skip them
+
+    # above diag 2
+    if i > 1:
+        # matrixA[i][3] = matrixA[i][3]
+        pass
+    else:
+        matrixA[i][3] = 0
+
+    # above diag 1
     if i > 0:
-        matrixA[i][i] = matrixA[i][i] - (matrixA[i][i-1] * matrixA[i-1][i])
-        if(i+1 < N):
-            matrixA[i][i+1] = matrixA[i][i+1] - (matrixA[i][i-1] * matrixA[i-1][i+1])
-    # also skips this
-    # matrixA[i][i+2] = matrixA[i][i+2]
-    if(i+1 < N):
-        matrixA[i+1][i] = matrixA[i][i+1] / matrixA[i][i]
+        matrixA[i][2] = matrixA[i][2] - matrixA[i-1][0] * matrixA[i][3]
+    elif i > 0:
+        # matrixA[i][2] = matrixA[i][2]
+        pass
+    else:
+        matrixA[i][2] = 0
+
+    # below diag 1
+    if i > 0:
+        matrixA[i][0] = matrixA[i][0]/matrixA[i-1][1]
+    else:
+        matrixA[i][0] = 0
+
+    # diag
+    if i > 0:
+        matrixA[i][1] = matrixA[i][1] - matrixA[i][0] * matrixA[i][2]
+    else:
+        # matrixA[i][1] = matrixA[i][1]
+        pass
 
 
-# print("====new====\n")
-# print(matrixA)
+print("====new====\n")
+print(np.matrix(matrixA))
 
 
 def getL(x, y):
+    # L diagonal
     if x == y:
         return 1
-    if x < y:
-        return 0
-    return matrixA[x][y]
+    # L below diag 1
+    if x == y+1:
+        return matrixA[x][0]
+    # rest
+    return 0
 
 
 def getU(x, y):
-    if x > y:
-        return 0
-    return matrixA[x][y]
+    # U diagonal
+    if x == y:
+        return matrixA[x][1]
+    # U above diag 1
+    if x+1 == y:
+        return matrixA[x+1][2]
+    # U above diag 2
+    if x+2 == y:
+        return matrixA[x+2][3]
+    return 0
 
 
 # todo: remove test:
-print(len(matrixA))
-print(len(matrixA[0]))
 lList = []
 uList = []
 for i in range(N):
@@ -77,14 +107,14 @@ print("l:\n")
 print(l)
 print("u:\n")
 print(u)
-exit(0)
+
 # Lt = x
 vectorT = []
 for i in range(0, N):
     prev = 0
     for j in range(0, len(vectorT)):
         prev += getL(i, j) * vectorT[j]
-    vectorT.append((vectorX[i] - prev))
+    vectorT.append((i+1 - prev))
 
 print(vectorT)
 
@@ -93,7 +123,6 @@ vectorY = []
 for i in range(0, N):
     prev = 0
     for j in range(0, len(vectorY)):
-        print(f"{i}, {j}")
         prev += getL(N-1-i, len(vectorY)-1-j) * vectorY[len(vectorY)-1-j]
     vectorY.append((vectorT[N-1-i] - prev))
 

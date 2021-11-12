@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.linalg import lu
 
-N = 100
+N = 6
 
 listA = []
 for i in range(1, N+1):
