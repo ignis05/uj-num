@@ -1,9 +1,9 @@
-import numpy as np
+# rozmiar macierzy i wektora
+N = 100
 
-N = 6
 
+# zapisanie wejściowej macierzy A jako tablica[N][4]
 matrixA = []
-# iterate from 1 so the i in equation is correct
 for i in range(1, N+1):
     row = [[], [], [], []]
     matrixA.append(row)
@@ -26,11 +26,8 @@ for i in range(1, N+1):
         row[3] = 0
 
 
-print(np.matrix(matrixA))
-
-# LU decomposition
+# rozkład LU "in-place"
 for i in range(N):
-
     # above diag 2
     if i > 1:
         # matrixA[i][3] = matrixA[i][3]
@@ -61,10 +58,7 @@ for i in range(N):
         pass
 
 
-print("\n====new====")
-print(np.matrix(matrixA))
-
-
+# funkcja pomocnicza zwracająca odpowiednią wartość macierzy L czytając z tablicy matrixA
 def getL(x, y):
     # L diagonal
     if x == y:
@@ -74,6 +68,8 @@ def getL(x, y):
         return matrixA[x][0]
     # rest
     return 0
+
+# funkcja pomocnicza zwracająca odpowiednią wartość macierzy U czytając z tablicy matrixA
 
 
 def getU(x, y):
@@ -89,26 +85,8 @@ def getU(x, y):
     return 0
 
 
-# todo: remove test:
-lList = []
-uList = []
-for i in range(N):
-    lList.append([])
-    uList.append([])
-    for j in range(N):
-        lList[i].append(0)
-        lList[i][j] = getL(i, j)
-        uList[i].append(0)
-        uList[i][j] = getU(i, j)
-l = np.array(lList)
-u = np.array(uList)
-
-print("\nl:")
-print(l)
-print("\nu:")
-print(u)
-
-# Lt = x | forwards substitution
+# obliczenie Lt = x | forwards substitution
+# zamiast zapisywania całego wektora x w pamięci, są brane jego wartości jako vectorX[i] = i+1
 vectorT = []
 for i in range(0, N):
     prev = 0
@@ -116,9 +94,8 @@ for i in range(0, N):
         prev += getL(i, j) * vectorT[j]
     vectorT.append((i+1 - prev)/getL(i, i))
 
-print(vectorT)
 
-# Uy = t | backwards substitution
+# obliczenie Uy = t | backwards substitution
 vectorY = [None] * N
 for i in reversed(range(0, N)):
     prev = 0
@@ -126,5 +103,15 @@ for i in reversed(range(0, N)):
         prev += getU(i, j) * vectorY[j]
     vectorY[i] = (vectorT[i] - prev)/getU(i, i)
 
-print("\n=== result: ===")
-print(vectorY)
+# wykorzystywane tylko do wyświetlania wyników - numpy.array wyświetla się znacznie ładniej niż zwykła lista
+from numpy import array
+print("wektor y:")
+print(array(vectorY))
+
+# det(A) = det(L) * det(U) = 1 * det(U) = iloczyn i->N: U[i][i]
+det = 1
+for i in range(N):
+    det *= getU(i, i)
+
+print("\nwyznacznik A:")
+print(det)

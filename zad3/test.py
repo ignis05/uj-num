@@ -1,7 +1,6 @@
 import numpy as np
-from scipy.linalg import lu
 
-N = 6
+N = 100
 
 listA = []
 for i in range(1, N+1):
@@ -25,20 +24,22 @@ matrixA = np.array(listA)
 
 vectorX = np.array(listX).T
 
-vectorY = np.linalg.solve(matrixA, vectorX)
+
+# from scipy.linalg import lu
+# p, l, u = lu(matrixA)
+# print("\np:")
+# print(p)
+# print("\nl:")
+# print(l)
+# print("\nu:")
+# print(u)
+
+# vectorT = np.linalg.solve(l, vectorX)
+# print("\nvector T:")
+# print(vectorT)
 
 
-p, l, u = lu(matrixA)
-
-vectorT = np.linalg.solve(l, vectorX)
-
-print("\np:")
-print(p)
-print("\nl:")
-print(l)
-print("\nu:")
-print(u)
-print("\nvector after L (t):")
-print(vectorT)
-print("\nresult vector:")
-print(vectorY)
+print("wektor y:")
+print(np.linalg.solve(matrixA, vectorX))
+print("\nwyznacznik A")
+print(np.linalg.det(matrixA))
