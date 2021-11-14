@@ -85,7 +85,7 @@ def getU(x, y):
     return 0
 
 
-# obliczenie Lt = x | forwards substitution
+# obliczenie Lt = x | forward substitution
 # zamiast zapisywania całego wektora x w pamięci, są brane jego wartości jako vectorX[i] = i+1
 vectorT = []
 for i in range(0, N):
@@ -95,7 +95,7 @@ for i in range(0, N):
     vectorT.append((i+1 - prev)/getL(i, i))
 
 
-# obliczenie Uy = t | backwards substitution
+# obliczenie Uy = t | backward substitution
 vectorY = [None] * N
 for i in reversed(range(0, N)):
     prev = 0
