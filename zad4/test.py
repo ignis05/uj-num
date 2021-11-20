@@ -1,5 +1,6 @@
-from scipy.linalg import lu
 import numpy as np
+import time
+start = time.time()
 
 N = 50
 
@@ -19,3 +20,4 @@ matrixA = np.array(listA)
 vectorB = np.array([5 for _ in range(1, N+1)]).T
 
 print(np.linalg.solve(matrixA, vectorB))
+print(f"time: {time.time() - start}")

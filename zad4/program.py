@@ -1,3 +1,5 @@
+import time
+start = time.time()
 N = 50
 
 # Dana macierz jest macierzą U
@@ -48,3 +50,4 @@ topSBot = [val/bot for val in top]
 # vectorY = vectorZ - topSBot
 vectorY = [val - topSBot[i] for i, val in enumerate(vectorZ)]
 print(vectorY)
+print(f"time: {time.time() - start}")
