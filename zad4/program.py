@@ -4,37 +4,29 @@ N = 50
 
 # Dana macierz jest macierzą U
 # macierz L jest jednostkowa więc we wszystkich obliczeniach pomijam L, bo LU=U
-# natomiast macierz U nie ma iteracyjnych wartości, więc nie ma potrzeby trzymania jej w pamięci - wszystkie wartości można bez problemy zwrócić z funkcji
-
-
-def getU(x, y):
-    "funkcja pomocnicza zwracająca odpowiednią wartość macierzy U"
-    # U diagonal
-    if x == y:
-        return 9
-    # U above diag 1
-    if x+1 == y:
-        return 7
-    return 0
-
+# natomiast macierz U nie ma iteracyjnych wartości, więc nie ma potrzeby trzymania jej w pamięci
 
 # wektor B składa się z samych 5, więc nie ma potrzeby trzymać go w pamięci
 # A * vectorZ = vectorB
 vectorZ = [None] * N
 for i in reversed(range(0, N)):
     prev = 0
-    for j in reversed(range(i+1, N)):
-        prev += getU(i, j) * vectorZ[j]
-    vectorZ[i] = (5 - prev)/getU(i, i)
+    if i < N-1:
+        # A(i,i+1) == 7
+        prev += 7 * vectorZ[i+1]
+    # A(i,i) == 9, vectorB[i] == 5
+    vectorZ[i] = (5 - prev) / 9
 
 # wektor U składa się z samych 1, więc nie ma potrzeby trzymać go w pamięci
 # A * vectorZprim = vectorU
 vectorZprim = [None] * N
 for i in reversed(range(0, N)):
     prev = 0
-    for j in reversed(range(i+1, N)):
-        prev += getU(i, j) * vectorZprim[j]
-    vectorZprim[i] = (1 - prev)/getU(i, i)
+    if i < N-1:
+        # A(i,i+1) == 7
+        prev += 7 * vectorZprim[i+1]
+    # A(i,i) == 9, vectorU[i] == 1
+    vectorZprim[i] = (1 - prev) / 9
 
 # vectorY = vectorZ - top/bot
 
