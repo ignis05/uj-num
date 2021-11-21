@@ -1,3 +1,5 @@
+from numpy import array
+
 # rozmiar macierzy i wektora
 N = 100
 
@@ -57,61 +59,35 @@ for i in range(N):
         # matrixA[i][1] = matrixA[i][1]
         pass
 
-
-# funkcja pomocnicza zwracająca odpowiednią wartość macierzy L czytając z tablicy matrixA
-def getL(x, y):
-    # L diagonal
-    if x == y:
-        return 1
-    # L below diag 1
-    if x == y+1:
-        return matrixA[x][0]
-    # rest
-    return 0
-
-# funkcja pomocnicza zwracająca odpowiednią wartość macierzy U czytając z tablicy matrixA
-
-
-def getU(x, y):
-    # U diagonal
-    if x == y:
-        return matrixA[x][1]
-    # U above diag 1
-    if x+1 == y:
-        return matrixA[x+1][2]
-    # U above diag 2
-    if x+2 == y:
-        return matrixA[x+2][3]
-    return 0
-
-
 # obliczenie Lt = x | forward substitution
 # zamiast zapisywania całego wektora x w pamięci, są brane jego wartości jako vectorX[i] = i+1
 vectorT = []
 for i in range(0, N):
     prev = 0
-    for j in range(0, len(vectorT)):
-        prev += getL(i, j) * vectorT[j]
-    vectorT.append((i+1 - prev)/getL(i, i))
+    if i > 0:
+        prev += matrixA[i][0] * vectorT[i-1]
+    vectorT.append((i+1 - prev))
 
+# print(array(vectorT))
 
 # obliczenie Uy = t | backward substitution
 vectorY = [None] * N
 for i in reversed(range(0, N)):
     prev = 0
-    for j in reversed(range(i+1, N)):
-        prev += getU(i, j) * vectorY[j]
-    vectorY[i] = (vectorT[i] - prev)/getU(i, i)
+    if i < N-1:
+        prev += matrixA[i+1][2] * vectorY[i+1]
+    if i < N-2:
+        prev += matrixA[i+2][3] * vectorY[i+2]
+    vectorY[i] = (vectorT[i] - prev)/matrixA[i][1]
 
 # wykorzystywane tylko do wyświetlania wyników - numpy.array wyświetla się znacznie ładniej niż zwykła lista
-from numpy import array
 print("wektor y:")
 print(array(vectorY))
 
 # det(A) = det(L) * det(U) = 1 * det(U) = iloczyn i->N: U[i][i]
 det = 1
 for i in range(N):
-    det *= getU(i, i)
+    det *= matrixA[i][1]
 
 print("\nwyznacznik A:")
 print(det)
