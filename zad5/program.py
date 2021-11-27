@@ -101,46 +101,27 @@ def gauss(startVector, accuracy, expectedRes=None):
 result, iterCount = gauss([1]*N, ACCURACY)
 print(f'result converged after {iterCount} iterations:\n', np.array(result))
 
+
+def generatePlot(startVector, title, pos, size):
+    _, jSize, jPlotList = jacobi(startVector, ACCURACY, result)
+    _, gSize, gPlotList = gauss(startVector, ACCURACY, result)
+    fig = plt.subplot(size, 1, pos)
+    plt.title(title)
+    # plt.grid(color='gray', linestyle='--', linewidth=0.5)
+    plt.plot([i for i in range(1, jSize+1)], jPlotList, label="Jacobi")
+    plt.plot([i for i in range(1, gSize+1)], gPlotList, label="Gauss")
+    plt.xlabel('n')
+    plt.ylabel('log || x(n) - x* ||')
+    plt.legend()
+    plt.gca().set_yticks([0, -5, -10, -15])
+
+
 # starting point = vector of 1's
-_, jSize, jPlotList = jacobi([1]*N, ACCURACY, result)
-_, gSize, gPlotList = gauss([1]*N, ACCURACY, result)
-fig = plt.subplot(3, 1, 1)
-plt.title('Start z wektora [1,1,...,1]:')
-# plt.grid(color='gray', linestyle='--', linewidth=0.5)
-plt.plot([i for i in range(1, jSize+1)], jPlotList, label="Jacobi")
-plt.plot([i for i in range(1, gSize+1)], gPlotList, label="Gauss")
-plt.xlabel('n')
-plt.ylabel('log || x(n) - x* ||')
-plt.legend()
-plt.gca().set_yticks([0, -5, -10, -15])
-
+generatePlot([1]*N, 'Start z wektora [1,1,...,1]:', 1, 3)
 # starting point = near result vector
-start = [r - 0.5 for r in result]
-_, jSize, jPlotList = jacobi(start, ACCURACY, result)
-_, gSize, gPlotList = gauss(start, ACCURACY, result)
-fig = plt.subplot(3, 1, 2)
-plt.title('Start z wektora "s[n] = wynik[n]-0.5":')
-# plt.grid(color='gray', linestyle='--', linewidth=0.5)
-plt.plot([i for i in range(1, jSize+1)], jPlotList, label="Jacobi")
-plt.plot([i for i in range(1, gSize+1)], gPlotList, label="Gauss")
-plt.xlabel('n')
-plt.ylabel('log || x(n) - x* ||')
-plt.legend()
-plt.gca().set_yticks([0, -5, -10, -15])
-
+generatePlot([r - 0.5 for r in result], 'Start z wektora "s[n] = wynik[n]-0.5":', 2, 3)
 # starting point = far from result vector
-start = [1000] * N
-_, jSize, jPlotList = jacobi(start, ACCURACY, result)
-_, gSize, gPlotList = gauss(start, ACCURACY, result)
-fig = plt.subplot(3, 1, 3)
-plt.title('Start z wektora [1000,1000,...,1000]:')
-# plt.grid(color='gray', linestyle='--', linewidth=0.5)
-plt.plot([i for i in range(1, jSize+1)], jPlotList, label="Jacobi")
-plt.plot([i for i in range(1, gSize+1)], gPlotList, label="Gauss")
-plt.xlabel('n')
-plt.ylabel('log || x(n) - x* ||')
-plt.legend()
-plt.gca().set_yticks([0, -5, -10, -15])
+generatePlot([1000] * N, 'Start z wektora [1000,1000,...,1000]:', 3, 3)
 
 # show plot
 plt.suptitle('Zbliżanie się do wyniku metod iteracyjnych dla wybranych wektorów startowych')
