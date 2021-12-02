@@ -53,7 +53,7 @@ def jacobi(startVector, accuracy, expectedRes=None):
             plotList.append(np.log10(np.linalg.norm(np.array(vectorX) - np.array(expectedRes))))
 
         # stop condition - vector norm changed by less than 10e-08
-        if math.isclose(newNorm, prevNorm, rel_tol=accuracy):
+        if math.isclose(newNorm, prevNorm, abs_tol=accuracy):
             if expectedRes:
                 return vectorX, n, plotList
             return vectorX, n
@@ -90,7 +90,7 @@ def gauss(startVector, accuracy, expectedRes=None):
             plotList.append(np.log10(np.linalg.norm(np.array(vectorX) - np.array(expectedRes))))
 
         # stop condition - vector norm changed by less than 10e-08
-        if math.isclose(newNorm, prevNorm, rel_tol=accuracy):
+        if math.isclose(newNorm, prevNorm, abs_tol=accuracy):
             if expectedRes:
                 return vectorX, n, plotList
             return vectorX, n
@@ -102,10 +102,10 @@ result, iterCount = gauss([1]*N, ACCURACY)
 print(f'result converged after {iterCount} iterations:\n', np.array(result))
 
 
-def generatePlot(startVector, title, pos, size):
+def generatePlot(startVector, title, pos, size, ticks):
     _, jSize, jPlotList = jacobi(startVector, ACCURACY, result)
     _, gSize, gPlotList = gauss(startVector, ACCURACY, result)
-    fig = plt.subplot(size, 1, pos)
+    plt.subplot(size, 1, pos)
     plt.title(title)
     # plt.grid(color='gray', linestyle='--', linewidth=0.5)
     plt.plot([i for i in range(1, jSize+1)], jPlotList, label="Jacobi")
@@ -113,15 +113,16 @@ def generatePlot(startVector, title, pos, size):
     plt.xlabel('n')
     plt.ylabel('log || x(n) - x* ||')
     plt.legend()
-    plt.gca().set_yticks([0, -5, -10, -15])
+    plt.gca().set_yticks(ticks)
+    plt.grid()
 
 
 # starting point = vector of 1's
-generatePlot([1]*N, 'Start z wektora [1,1,...,1]:', 1, 3)
+generatePlot([1]*N, 'Start z wektora [1,1,...,1]:', 1, 3, np.arange(2, -9, step=-2))
 # starting point = near result vector
-generatePlot([r - 0.5 for r in result], 'Start z wektora "s[n] = wynik[n]-0.5":', 2, 3)
+generatePlot([r - 0.5 for r in result], 'Start z wektora "s[n] = wynik[n]-0.5":', 2, 3, np.arange(0, -9, step=-2))
 # starting point = far from result vector
-generatePlot([1000] * N, 'Start z wektora [1000,1000,...,1000]:', 3, 3)
+generatePlot([1000] * N, 'Start z wektora [1000,1000,...,1000]:', 3, 3, np.arange(4, -9, step=-2))
 
 # show plot
 plt.suptitle('Zbliżanie się do wyniku metod iteracyjnych dla wybranych wektorów startowych')
