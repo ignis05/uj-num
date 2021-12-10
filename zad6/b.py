@@ -18,7 +18,6 @@ def nodeGen2(i, n):
 # f1
 x = np.linspace(-1, 1, 1000)
 nList = [4, 8, 16, 24, 48, 96]
-l = len(nList)+5
 # orig:
 plt.subplot(1, 2, 1)
 plt.title(r'Wielomiany interpolacyjne funkcji $f_1(x)=\frac{1}{1+25x^{2}}$ w zależności od stopnia n')
@@ -34,7 +33,6 @@ plt.legend(loc='lower center')
 # f2
 x = np.linspace(-1, 1, 1000)
 nList = [2, 3, 4, 6, 8, 48]
-l = len(nList)+5
 # orig:
 plt.subplot(1, 2, 2)
 plt.title(r'Wielomiany interpolacyjne funkcji $f_2(x)=\frac{1}{1+x^{2}}$ w zależności od stopnia n')
