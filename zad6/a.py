@@ -17,7 +17,7 @@ def nodeGen1(i, n):
 
 # f1
 x = np.linspace(-1, 1, 1000)
-nList = [2, 3, 4, 5, 6, 7]
+nList = [2, 3, 4, 6, 8, 10]
 l = len(nList)+5
 # orig:
 plt.subplot(1, 2, 1)
@@ -33,7 +33,7 @@ plt.legend(loc='lower center')
 
 # f2
 x = np.linspace(-1, 1, 1000)
-nList = [4, 6, 8, 16, 24, 48]
+nList = [2, 3, 4, 6, 8, 48]
 l = len(nList)+5
 # orig:
 plt.subplot(1, 2, 2)
