@@ -2,8 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from shared import *
 
-linspace = np.linspace(-1, 1, 1000)
-nList = [4, 6, 8, 10]
+linspace = np.linspace(-1, 1, 10000)
+nList = [4, 6, 8, 16]
 fig = plt.figure()
 plt.suptitle(
     'Błąd przy interpolacji funkcji $f(x)=\\frac{1}{1+25x^{2}}$ za pomocą naturalnych splajnów kubicznych, w zależności od ilości punktów, przez które przechodzi spline')
