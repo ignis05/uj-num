@@ -26,7 +26,6 @@ def uPrim(x):
 
 xStar = np.arcsin(0.37)
 
-x2Star = np.pi + np.arcsin(0.37)
 
 plt.subplot(1, 2, 1)
 plt.title('Dla funkcji $ f(x)=sin(x)-0.37 $')
@@ -39,7 +38,6 @@ plt.plot([i+1 for i in range(len(falsiRes))], [abs(xStar - xi) for xi in falsiRe
 secantsRes = secants(f, 0, np.pi/2, 10)
 plt.plot([i+1 for i in range(len(secantsRes))], [abs(xStar - xi) for xi in secantsRes], '-o', label='Metoda siecznych', )
 newtonRes = newton(f, np.cos, 1, 10)
-print([abs(xStar - xi) for xi in newtonRes])
 plt.plot([i+1 for i in range(len(newtonRes))], [abs(xStar - xi) for xi in newtonRes], '-o', label='Metoda Newtona', )
 plt.gca().set_yticks([1, 0.01, 0.0001, 0.000001, 0.00000001, 0.0000000001, 0.000000000001, 0.00000000000001, 0.0000000000000001, ])
 plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
@@ -51,15 +49,10 @@ plt.subplot(1, 2, 2)
 plt.title('Dla funkcji $ g(x)=(sin(x)-0.37)^2 $  ( dla $u(x)=\\frac{g(x)}{g\'(x)}$)')
 plt.yscale('log')
 plt.grid()
-# * wymagaja przeciwnych znakow, g(x) ma tylko wartosci nieujemne
-# bisectRes = bisect(g, 0, np.pi/2, MAXI)
-# plt.plot([i+1 for i in range(len(bisectRes))], [abs(xStar - xi) for xi in bisectRes], '-o', label='Metoda bisekcji', )
-# falsiRes = falsi(g, 0, np.pi/2, MAXI)
-# plt.plot([i+1 for i in range(len(falsiRes))], [abs(xStar - xi) for xi in falsiRes], '-o', label='Metoda falsi', )
+# * bisekcji i falsi wymagaja przeciwnych znakow, g(x) ma tylko wartosci nieujemne
 secantsRes = secants(u, 0, np.pi/2, 10)
 plt.plot([i+1 for i in range(len(secantsRes))], [abs(xStar - xi) for xi in secantsRes], '-o', label='Metoda siecznych', color='C2')
 newtonRes = newton(u, uPrim, 1, 10)
-print([abs(xStar - xi) for xi in newtonRes])
 plt.plot([i+1 for i in range(len(newtonRes))], [abs(xStar - xi) for xi in newtonRes], '-o', label='Metoda Newtona', color='C3')
 plt.gca().set_yticks([1, 0.01, 0.0001, 0.000001, 0.00000001, 0.0000000001, 0.000000000001, 0.00000000000001, 0.0000000000000001, ])
 plt.xlabel('iteracja')
